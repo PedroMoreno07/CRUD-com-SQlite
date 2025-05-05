@@ -52,7 +52,21 @@ export const updateUsers = async (req, res) => {
     res.status(200).json(updateUser);
   } catch (error) {
     res.status(400).json({
-      mensagem: "Error ao deletar o usuario",
+      mensagem: "Error ao atualizar, usuario não encontrado!",
+      erro: error.message,
+    });
+  }
+};
+export const getUserId = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const user = await prisma.user.findUnique({
+      where: { id: parseInt(id) },
+    });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({
+      mensagem: "Error ao procurar o usuario, usuario não encontrado!",
       erro: error.message,
     });
   }
