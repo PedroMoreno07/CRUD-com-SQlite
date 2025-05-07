@@ -8,7 +8,7 @@ export const getAllusers = async (req, res) => {
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({
-      mensagem: "Error ao criar o novo  usuario",
+      mensagem: "Usuarios não encontrado",
       erro: error.message,
     });
   }
