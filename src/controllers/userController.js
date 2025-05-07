@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-
+import { hashPassword } from "../utils/auth.js";
 const prisma = new PrismaClient();
 
 export const getAllusers = async (req, res) => {
@@ -68,6 +68,29 @@ export const getUserId = async (req, res) => {
     res.status(500).json({
       mensagem: "Error ao procurar o usuario, usuario não encontrado!",
       erro: error.message,
+    });
+  }
+};
+
+export const registerUser = async (req, res) => {
+  const { name, email, password } = req.body;
+  try {
+    //criar a senha do usuario hasheada
+    const hashedPassword = await hashPassword(password);
+
+    //Cria usuario no banco de dados
+    const newRegister = await prisma.user.create({
+      data: {
+        name: name,
+        email: email,
+        password: hashedPassword,
+      },
+    });
+    res.status(201).json(newRegister);
+  } catch (error) {
+    res.status(400).json({
+      error: "erro ao criar o usuário",
+      detalhes: error.message,
     });
   }
 };
