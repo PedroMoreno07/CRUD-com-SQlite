@@ -46,3 +46,19 @@ export const getProductById = async (req, res) => {
     });
   }
 };
+export const updateProduct = async (req, res) => {
+  const id = req.params.id;
+  const { name, description, price, stock } = req.body;
+  try {
+    const updateProduct = await prisma.product.update({
+      where: { id: parseInt(id) },
+      data: { name, description, price, stock },
+    });
+    res.status(200).json(updateProduct);
+  } catch (error) {
+    res.status(400).json({
+      mensagem: "Error ao atualizar, usuario não encontrado!",
+      erro: error.message,
+    });
+  }
+};
