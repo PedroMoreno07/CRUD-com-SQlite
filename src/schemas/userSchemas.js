@@ -14,3 +14,8 @@ export const updateUserSchema = z.object({
     .min(6, "A senha tem que ter pelo menos 6 chars")
     .optional(),
 });
+
+export const loginSchemas = z.object({
+  email: z.string().email("Email invalido!"),
+  password: z.string().min(1, "Campo Obrigatório"),
+});
