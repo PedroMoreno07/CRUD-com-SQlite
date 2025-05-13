@@ -62,3 +62,18 @@ export const updateProduct = async (req, res) => {
     });
   }
 };
+export const deleteProduct = async (req, res) => {
+  const id = req.params.id;
+  try {
+    await prisma.product.delete({
+      where: { id: Number(id) },
+    });
+    res.status(200).json(deleteProduct);
+  } catch (error) {
+    res.status(400).json({
+      mensagem: "Error ao deletar o produto",
+      erro: error.message,
+      stack: error.stack,
+    });
+  }
+};
